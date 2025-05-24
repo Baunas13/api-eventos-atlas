@@ -1,5 +1,6 @@
 import express from 'express'
 import User from './models/User.js'
+import Events from './models/Events.js'
 import Sequelize from 'sequelize'
 import config from './config/database.js'
 import userRoutes from './routes.js'
@@ -9,8 +10,10 @@ app.use(express.json())
 
 const sequelize = new Sequelize(config)
 User.init(sequelize)
+Events.init(sequelize)
 
 app.use('/usuarios', userRoutes)
+app.use('/eventos', userRoutes)
 
 
 sequelize.authenticate().then(() => {
