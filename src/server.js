@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import User from './models/User.js'
 import Events from './models/Events.js'
 import Cart from './models/Cart.js'
@@ -11,6 +12,7 @@ import routesCart from './routes/routesCart.js'
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 const sequelize = new Sequelize(config)
 User.init(sequelize)

@@ -13,7 +13,7 @@ class User extends Model {
 
                 age: {
                     type: Sequelize.INTEGER,
-                    allowNull: false
+                    allowNull: true
                 },
 
                 email: {
@@ -25,23 +25,23 @@ class User extends Model {
 
                 cpf: {
                     type: Sequelize.STRING,
-                    allowNull: false,
+                    allowNull: true,
                     unique: true
                 },
 
                 cnpj: {
                     type: Sequelize.STRING,
-                    allowNull: false,
+                    allowNull: true,
                     unique: true
                 },
 
                 gender: {
-                    type: Sequelize.ENUM('Masculino', 'Feminino', 'Outros'),
+                    type: Sequelize.ENUM('Masculino', 'Feminino', 'Outros', 'Prefiro não dizer'),
                     allowNull: false
                 },
 
                 phone: {
-                    type: Sequelize.INTEGER,
+                    type: Sequelize.STRING,
                     allowNull: false
                 },
 

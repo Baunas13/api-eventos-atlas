@@ -6,17 +6,16 @@ export const createUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
-    const validGenders = ['Masculino', 'Feminino', 'Outros'];
+    const validGenders = ['Masculino', 'Feminino', 'Outros', 'Prefiro não dizer'];
 
-    if (!validGenders.includes(req.body.gender)) {
-        return res.status(400).json({ error: 'Gênero inválido. Opções válidas: Masculino, Feminino ou Outros.' });
+    if (req.body.gender && !validGenders.includes(req.body.gender)) {
+        return res.status(400).json({ error: 'Gênero inválido. Opções válidas: Masculino, Feminino, Outros ou Prefiro não dizer.' });
     }
 
-    // const { cpf, cnpj } = req.body;
+    if (!req.body.cpf && !req.body.cnpj) {
+        return res.status(400).json({ error: 'É necessário informar pelo menos o CPF ou o CNPJ.' });
+    }
 
-    // if ((cpf && cnpj) || (!cpf && !cnpj)) {
-    //     return res.status(400).json({ error: 'Você deve preencher apenas CPF ou CNPJ, não ambos ou nenhum.' });
-    // }
 
     try {
         const userToCreate = {
