@@ -20,23 +20,23 @@ module.exports = {
 
       cpf: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true
       },
 
       cnpj: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true
       },
 
       gender: {
-        type: Sequelize.ENUM('Masculino', 'Feminino', 'Outros'),
+        type: Sequelize.ENUM('Masculino', 'Feminino', 'Outros', 'Prefiro não dizer'),
         allowNull: false
       },
 
       phone: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
       },
 
@@ -51,8 +51,18 @@ module.exports = {
         allowNull: false
       },
 
-      age: {
-        type: Sequelize.INTEGER,
+      state: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      city: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      address: {
+        type: Sequelize.STRING,
         allowNull: false
       },
 

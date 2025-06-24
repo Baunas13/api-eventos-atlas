@@ -1,6 +1,7 @@
 import User from '../models/User.js'
 import crypto from 'node:crypto'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken';
 
 export const createUser = async (req, res) => {
 
@@ -21,7 +22,9 @@ export const createUser = async (req, res) => {
         const userToCreate = {
             id: crypto.randomUUID(),
             name: req.body.name,
-            age: req.body.age,
+            state: req.body.state,
+            city: req.body.city,
+            address: req.body.address,
             email: req.body.email,
             password: hashedPassword,
             cpf: req.body.cpf,
@@ -52,3 +55,40 @@ export const deleteUser = async (req, res) => {
     })
     res.status(200).json(user)
 }
+
+export const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ where: { email } });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuário não encontrado.' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Senha incorreta.' });
+        }
+
+        const token = console.log('JWT_SECRET:', process.env.JWT_SECRET);
+
+        jwt.sign(
+            { id: user.id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        const { password: _, ...userWithoutPassword } = user.toJSON();
+
+        return res.status(200).json({
+            message: 'Login bem-sucedido!',
+            user: userWithoutPassword,
+            token,
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Erro ao fazer login.' });
+    }
+};

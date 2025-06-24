@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express'
 import cors from 'cors'
 import User from './models/User.js'
@@ -9,6 +11,8 @@ import config from './config/database.js'
 import eventRoutes from './routes/routesEvents.js'
 import userRoutes from './routes/routesUsers.js'
 import routesCart from './routes/routesCart.js'
+
+
 
 const app = express()
 app.use(express.json())

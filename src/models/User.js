@@ -11,9 +11,19 @@ class User extends Model {
                     allowNull: false
                 },
 
-                age: {
-                    type: Sequelize.INTEGER,
-                    allowNull: true
+                state: {
+                    type: Sequelize.STRING,
+                    allowNull: false
+                },
+
+                city: {
+                    type: Sequelize.STRING,
+                    allowNull: false
+                },
+
+                address: {
+                    type: Sequelize.STRING,
+                    allowNull: false
                 },
 
                 email: {
