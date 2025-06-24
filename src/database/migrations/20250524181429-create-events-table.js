@@ -33,6 +33,16 @@ module.exports = {
         allowNull: false
       },
 
+      cidade: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      estado: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
       nicho: {
         type: Sequelize.STRING,
         allowNull: false
@@ -46,6 +56,11 @@ module.exports = {
       limiteInscricoes: {
         type: Sequelize.INTEGER,
         allowNull: false
+      },
+
+      imagem: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
 
       createdAt: {

@@ -26,6 +26,16 @@ class Events extends Model {
                     allowNull: false
                 },
 
+                cidade: {
+                    type: Sequelize.STRING,
+                    allowNull: false
+                },
+
+                estado: {
+                    type: Sequelize.STRING,
+                    allowNull: false
+                },
+
                 nicho: {
                     type: Sequelize.STRING,
                     allowNull: false
@@ -40,12 +50,25 @@ class Events extends Model {
                     type: Sequelize.INTEGER,
                     allowNull: false
                 },
+
+                imagem: {
+                    type: Sequelize.STRING,
+                    allowNull: true
+                }
             }
             ,
             { sequelize }
 
         )
     }
+
+    static associate(models) {
+        this.hasMany(models.Ingressos, {
+            foreignKey: 'eventoId',
+            as: 'ingressos'
+        });
+    }
+
 }
 
 export default Events
