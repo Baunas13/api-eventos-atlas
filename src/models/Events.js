@@ -41,15 +41,15 @@ class Events extends Model {
                     allowNull: false
                 },
 
-                precificacao: {
-                    type: Sequelize.INTEGER,
-                    allowNull: false
-                },
+                // precificacao: {
+                //     type: Sequelize.INTEGER,
+                //     allowNull: false
+                // },
 
-                limiteInscricoes: {
-                    type: Sequelize.INTEGER,
-                    allowNull: false
-                },
+                // limiteInscricoes: {
+                //     type: Sequelize.INTEGER,
+                //     allowNull: false
+                // },
 
                 imagem: {
                     type: Sequelize.STRING,

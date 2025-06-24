@@ -12,8 +12,8 @@ export const createEvents = async (req, res) => {
             data: req.body.data,
             local: req.body.local,
             nicho: req.body.nicho,
-            precificacao: req.body.precificacao,
-            limiteInscricoes: req.body.limiteInscricoes,
+            // precificacao: req.body.precificacao,
+            // limiteInscricoes: req.body.limiteInscricoes,
             cidade: req.body.cidade,
             estado: req.body.estado,
             imagem: req.file ? req.file.filename : null,
@@ -21,16 +21,30 @@ export const createEvents = async (req, res) => {
 
         const events = await Events.create(eventsToCreate)
 
-        if (req.body.ingressos && Array.isArray(req.body.ingressos)) {
+        if (req.body.ingressos) {
+            let ingressosArray;
 
-            const ingressosToCreate = req.body.ingressos.map(ingresso => ({
-                ...ingresso,
-                id: String(crypto.randomUUID()),
-                eventoId: String(events.id),
-            }));
+            try {
+                if (typeof req.body.ingressos === 'string') {
+                    ingressosArray = JSON.parse(req.body.ingressos);
+                } else {
+                    ingressosArray = req.body.ingressos;
+                }
 
-            await Ingressos.bulkCreate(ingressosToCreate);
+                if (Array.isArray(ingressosArray)) {
+                    const ingressosToCreate = ingressosArray.map(ingresso => ({
+                        ...ingresso,
+                        id: String(crypto.randomUUID()),
+                        eventoId: String(events.id),
+                    }));
+
+                    await Ingressos.bulkCreate(ingressosToCreate);
+                }
+            } catch (e) {
+                console.error("Erro ao parsear ingressos:", e);
+            }
         }
+
 
         const eventComIngressos = await Events.findByPk(events.id, {
             include: [{ model: Ingressos, as: 'ingressos' }]
