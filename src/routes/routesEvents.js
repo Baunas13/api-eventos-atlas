@@ -1,11 +1,12 @@
-import express from 'express'
+import express from 'express';
 import { upload } from '../middlewares/upload.js';
-import { createEvents, getAllEvents, deleteEvent } from '../controllers/eventsController.js'
+import { createEvents, getAllEvents, deleteEvent, updateEvent } from '../controllers/eventsController.js';
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/novoEvento', upload.single('imagem'), createEvents)
-router.get('/todos', getAllEvents)
-router.delete('/deletar/:id', deleteEvent)
+router.get('/', getAllEvents);
+router.post('/', upload.single('imagem'), createEvents);
+router.put('/:id', updateEvent);
+router.delete('/:id', deleteEvent);
 
-export default router
+export default router;
