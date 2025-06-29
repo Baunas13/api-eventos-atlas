@@ -56,20 +56,52 @@ export const createEvents = async (req, res) => {
         res.status(500).json(err);
     }
 };
-
-
 export const getAllEvents = async (req, res) => {
-
-    const event = await Events.findAll({
-        include: [{ model: Ingressos, as: 'ingressos' }]
-    })
-    res.status(200).json(event)
-}
+    try {
+        const events = await Events.findAll({
+            include: [{ model: Ingressos, as: 'ingressos' }]
+        });
+        res.status(200).json(events);
+    } catch (err) {
+        console.error("Erro ao listar eventos:", err);
+        res.status(500).json({ error: "Falha ao listar eventos." });
+    }
+};
 
 export const deleteEvent = async (req, res) => {
+    try {
+        const result = await Events.destroy({
+            where: { id: req.params.id }
+        });
+        if (result === 0) {
+            return res.status(404).json({ error: "Evento não encontrado para deletar." });
+        }
+        res.status(200).json({ message: "Evento deletado com sucesso." });
+    } catch (err) {
+        console.error("Erro ao deletar evento:", err);
+        res.status(500).json({ error: "Falha ao deletar evento." });
+    }
+};
 
-    const event = await Events.destroy({
-        where: { id: req.params.id }
-    })
-    res.status(200).json(event)
-}
+export const updateEvent = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const event = await Events.findByPk(id);
+        if (!event) {
+            return res.status(404).json({ error: 'Evento não encontrado.' });
+        }
+
+        const [updated] = await Events.update(req.body, {
+            where: { id: id }
+        });
+
+        if (updated) {
+            const updatedEvent = await Events.findByPk(id, { include: [{ model: Ingressos, as: 'ingressos' }] });
+            return res.status(200).json(updatedEvent);
+        }
+        throw new Error('Nenhuma linha foi atualizada.');
+    } catch (error) {
+        console.error("Erro ao atualizar evento:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
